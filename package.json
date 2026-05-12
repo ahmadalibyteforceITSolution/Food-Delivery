@@ -9,6 +9,7 @@
     "dev:backend": "node api/index.js",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "install:all": "npm install && cd frontend && npm install",
+    "seed": "node seed.js",
     "build": "vite build frontend"
   },
   "dependencies": {

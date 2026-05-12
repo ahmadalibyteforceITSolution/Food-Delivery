@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// import serverless from 'serverless-http';
 import { Resend } from 'resend';
 dotenv.config();
 
