@@ -9,12 +9,16 @@
       "destination": "backend/server.js"
     },
     {
-      "source": "/(.*\\..*)",
-      "destination": "/frontend/dist/$1"
+      "source": "/assets/(.*)",
+      "destination": "frontend/dist/assets/$1"
+    },
+    {
+      "source": "/((?!api/|sitemap\\.xml).*\\..*)",
+      "destination": "frontend/dist/$1"
     },
     {
       "source": "/((?!api/|sitemap\\.xml).*)",
-      "destination": "/frontend/dist/index.html"
+      "destination": "frontend/dist/index.html"
     }
   ]
 }
