@@ -59,7 +59,7 @@ const sendOrderConfirmation = async (order, userEmail) => {
 
           <p><strong>Delivery Address:</strong><br/>${order.deliveryAddress}</p>
           <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
-          \${order.notes ? \`<p><strong>Notes:</strong> \${order.notes}</p>\` : ''}
+          ${order.notes ? `<p><strong>Notes:</strong> ${order.notes}</p>` : ''}
           
           <div style="text-align: center; margin-top: 40px; color: #888; font-size: 0.8em;">
             <p>© 2026 Elysium Eats. Order Management System.</p>
@@ -72,7 +72,7 @@ const sendOrderConfirmation = async (order, userEmail) => {
       console.error('Resend Error Details:', error);
       return;
     }
-    console.log(`Confirmation email sent to \${userEmail} (ID: \${data.id})`);
+    console.log(`Confirmation email sent to ${userEmail} (ID: ${data.id})`);
   } catch (error) {
     console.error('Error sending email:', error);
   }
@@ -173,7 +173,7 @@ app.post('/api/subscribe', async (req, res) => {
   if (!email) return res.status(400).json({ message: 'Email is required' });
   
   // In a real app, you'd save this to a Newsletter collection
-  console.log(\`New newsletter subscription: \${email}\`);
+  console.log(`New newsletter subscription: ${email}`);
   
   if (process.env.RESEND_API_KEY) {
     try {
@@ -181,7 +181,7 @@ app.post('/api/subscribe', async (req, res) => {
         from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
         to: email,
         subject: 'Welcome to Elysium Eats Newsletter!',
-        html: \`
+        html: `
           <div style="font-family: 'serif', 'Times New Roman', serif; max-width: 600px; margin: 0 auto; padding: 40px; border: 1px solid #f0f0f0; border-radius: 20px;">
             <h1 style="color: #d70150; text-align: center;">Welcome!</h1>
             <p>Thank you for subscribing to the <strong>Elysium Eats</strong> newsletter.</p>
@@ -190,7 +190,7 @@ app.post('/api/subscribe', async (req, res) => {
               <p>© 2026 Elysium Eats. All rights reserved.</p>
             </div>
           </div>
-        \`
+        `
       });
     } catch (err) {
       console.error('Newsletter email error:', err);
@@ -232,23 +232,23 @@ app.get('/sitemap.xml', async (req, res) => {
       '/support'
     ];
 
-    let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\\n';
-    sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n';
+    let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
 
     // Static pages
     staticPages.forEach(page => {
-      sitemap += \`  <url>\\n    <loc>\${baseUrl}\${page}</loc>\\n    <changefreq>weekly</changefreq>\\n    <priority>\${page === '' ? '1.0' : '0.8'}</priority>\\n  </url>\\n\`;
+      sitemap += `  <url>\n    <loc>${baseUrl}${page}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
     });
 
     // Dynamic Restaurant pages
     restaurants.forEach(restaurant => {
       const restaurantSlug = encodeURIComponent(restaurant.name);
-      sitemap += \`  <url>\\n    <loc>\${baseUrl}/restaurant/\${restaurantSlug}</loc>\\n    <changefreq>daily</changefreq>\\n    <priority>0.7</priority>\\n  </url>\\n\`;
+      sitemap += `  <url>\n    <loc>${baseUrl}/restaurant/${restaurantSlug}</loc>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
     });
 
     // Dynamic Blog pages
     blogIds.forEach(id => {
-      sitemap += \`  <url>\\n    <loc>\${baseUrl}/blog/\${id}</loc>\\n    <changefreq>monthly</changefreq>\\n    <priority>0.6</priority>\\n  </url>\\n\`;
+      sitemap += `  <url>\n    <loc>${baseUrl}/blog/${id}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
     });
 
     sitemap += '</urlset>';
@@ -262,7 +262,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => console.log(\`Server running on port \${PORT}\`));
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 
 export default app;
