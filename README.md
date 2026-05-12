@@ -1,55 +1,66 @@
-# Elysium Eats - Premium Food Delivery Platform
+# Food Panda Restaurant
 
-A modern, full-stack food delivery application built with Vue 3, Vite, and Node.js.
+A full‑stack food‑delivery application with a **Vue 3 + Vite** frontend and an **Express** backend.
 
-## 📁 Project Structure
-
-```text
-food-panda-restaurant/
-├── backend/            # Express.js Server & MongoDB Models
-│   ├── server.js       # Main API & Sitemap logic
-│   ├── seed.js         # Database seeding script
-│   └── .env            # Environment variables (DB URI, Email)
-├── frontend/           # Vue 3 Frontend (Vite)
-│   ├── src/
-│   │   ├── components/ # Reusable UI components
-│   │   ├── stores/     # Pinia State Management
-│   │   └── views/      # Page components
-│   └── public/         # Static assets
-├── vercel.json         # Deployment configuration
-└── package.json        # Root scripts for monorepo management
+## Project structure
+```
+Food panda Restaurant/
+├─ backend/      # Express API
+├─ frontend/    # Vue 3 SPA (Vite)
+├─ vercel.json  # Vercel deployment configuration
+└─ README.md    # <‑ you are here
 ```
 
-## 🚀 Getting Started
+## Local development
+1. **Install dependencies**
+   ```bash
+   # Backend
+   cd "backend"
+   npm install   # may need to run with PowerShell execution‑policy bypass
+   
+   # Frontend
+   cd "../frontend"
+   npm install
+   ```
+2. **Run the services**
+   ```bash
+   # Backend (development)
+   cd backend && npm start
+   
+   # Frontend (development server)
+   cd ../frontend && npm run dev
+   ```
+   The frontend expects the API at `http://localhost:5000/api/...`.
 
-### 1. Installation
-Install dependencies for both frontend and backend:
-```bash
-npm run install:all
+## Vercel deployment
+The repository contains a `vercel.json` that tells Vercel to:
+- Build the Vue app as a static site (`frontend/dist`).
+- Proxy any request matching `/api/*` to the Express server (`backend/server.js`).
+- Serve all other routes from the built static files.
+
+### Steps to deploy
+1. Push the repository to GitHub (or any Git provider).
+2. In the Vercel dashboard, **Import Project** and select the repo.
+3. Vercel will automatically detect the `vercel.json` and run:
+   - `npm install` in both `frontend` and `backend`
+   - `npm run build` in `frontend` (Vite) to generate `dist/`
+4. Once the build finishes, Vercel will provide a live URL.
+
+> **Note** – If you encounter the PowerShell execution‑policy error while running `npm install` locally, open PowerShell **as Administrator** and run:
+> ```powershell
+> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+> ```
+> Then re‑run `npm install`.
+
+## Environment variables
+Create a `.env` file in `backend/` (copy from `.env.example`) with at least:
 ```
+MONGO_URI=your_mongodb_uri
+RESEND_API_KEY=your_resend_key   # optional – email notifications
+RESEND_FROM_EMAIL=your_from_email
+ADMIN_EMAIL=admin@example.com    # optional
+``` 
+The frontend can also use a `.env` file for Vite if needed.
 
-### 2. Environment Setup
-Create a `.env` file in the `backend/` directory with:
-```env
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
-EMAIL_USER=your_gmail
-EMAIL_PASS=your_gmail_app_password
-```
-
-### 3. Running the Project
-
-**Run both Frontend & Backend (Recommended):**
-```bash
-npm run dev
-```
-
-**Run Separately:**
-- Frontend only: `npm run dev:frontend`
-- Backend only: `npm run dev:backend`
-
-## 🛠 Features
-- **Dynamic SEO**: Automatically updated meta tags and sitemap.
-- **Blog System**: 100+ culinary articles with pagination.
-- **Premium UI**: Tailwind CSS powered luxury design.
-- **Real-time Cart**: Powered by Pinia.
+---
+Enjoy building and deploying your food‑delivery platform! 🎉

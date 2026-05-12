@@ -1,27 +1,11 @@
 {
-  "name": "food-panda-restaurant",
+  "name": "food-panda-mono",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.1.0",
   "scripts": {
-    "start": "npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && node server.js",
-    "postinstall": "cd backend && npm install",
-    "vercel-build": "npm run postinstall && npm run build",
-    "install:all": "cd frontend && npm install && cd ../backend && npm install",
-    "build": "cd frontend && npm install && npm run build && cd .. && rm -rf dist && cp -r frontend/dist dist",
-    "build:frontend": "cd frontend && npm run build"
-  },
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.2",
-    "resend": "^4.8.0",
-    "serverless-http": "^3.0.2"
+    "install": "npm install --prefix frontend && npm install --prefix backend",
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run start --prefix backend\"",
+    "build": "npm run build --prefix frontend"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

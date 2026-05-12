@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap link
+Sitemap: https://food-panda-restaurant.vercel.app/sitemap.xml
