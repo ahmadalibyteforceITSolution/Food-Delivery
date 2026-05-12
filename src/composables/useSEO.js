@@ -7,7 +7,7 @@ export const useSEO = (options = {}) => {
     type = 'website'
   } = options
 
-  // Set Title
+  // Set Title immediately
   if (title) {
     document.title = title;
   }
@@ -49,4 +49,7 @@ export const useSEO = (options = {}) => {
     document.head.appendChild(canonical);
   }
   canonical.href = url;
+
+  // For debugging/verification in dev tools
+  // console.log(`SEO Updated: ${title}`);
 };

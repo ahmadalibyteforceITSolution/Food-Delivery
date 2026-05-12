@@ -1,6 +1,36 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { Facebook, Instagram, Twitter, Youtube, Send, MapPin, Phone, Mail } from 'lucide-vue-next'
+import { useNotificationStore } from '../stores/notification'
+
+const notificationStore = useNotificationStore()
+const email = ref('')
+const isSubmitting = ref(false)
+
+const subscribe = async () => {
+  if (!email.value) return
+  
+  isSubmitting.value = true
+  try {
+    const response = await fetch('http://localhost:5000/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.value })
+    })
+    
+    if (response.ok) {
+      notificationStore.show('Thank you for subscribing!', 'success')
+      email.value = ''
+    } else {
+      notificationStore.show('Something went wrong. Please try again.', 'error')
+    }
+  } catch (error) {
+    notificationStore.show('Connection error. Please try again.', 'error')
+  } finally {
+    isSubmitting.value = false
+  }
+}
 </script>
 
 <template>
@@ -59,14 +89,21 @@ import { Facebook, Instagram, Twitter, Youtube, Send, MapPin, Phone, Mail } from
         <div>
           <h3 class="text-lg font-serif font-bold mb-8 text-luxury-gold">Newsletter</h3>
           <p class="text-neutral-400 text-sm mb-6">Subscribe to receive updates on new restaurants and exclusive offers.</p>
-          <form @submit.prevent class="relative">
+          <form @submit.prevent="subscribe" class="relative">
             <input 
+              v-model="email"
               type="email" 
               placeholder="Your email address" 
+              required
               class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-6 pr-14 text-sm outline-none focus:border-luxury-gold/50 transition-colors"
             />
-            <button type="submit" class="absolute right-2 top-2 bottom-2 px-4 bg-luxury-gold text-luxury-black rounded-xl hover:bg-white transition-colors">
-              <Send class="w-4 h-4" />
+            <button 
+              type="submit" 
+              :disabled="isSubmitting"
+              class="absolute right-2 top-2 bottom-2 px-4 bg-luxury-gold text-luxury-black rounded-xl hover:bg-white transition-colors disabled:opacity-50"
+            >
+              <Send v-if="!isSubmitting" class="w-4 h-4" />
+              <span v-else class="w-4 h-4 border-2 border-luxury-black border-t-transparent rounded-full animate-spin"></span>
             </button>
           </form>
         </div>

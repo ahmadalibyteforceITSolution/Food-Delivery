@@ -10,12 +10,12 @@ const route = useRoute()
 const router = useRouter()
 const blogStore = useBlogStore()
 
-const blog = computed(() => blogStore.getBlogById(route.params.id))
+const blog = computed(() => blogStore.getBlogBySlug(route.params.slug))
 
 watchEffect(() => {
   if (blog.value) {
     useSEO({ 
-      title: `${blog.value.title} | Elysium Eats Blog`,
+      title: blog.value.title,
       description: blog.value.excerpt,
       image: blog.value.image,
       type: 'article'
@@ -32,7 +32,7 @@ onMounted(() => {
 
 const otherBlogs = computed(() => {
   return blogStore.blogs
-    .filter(b => b.id !== parseInt(route.params.id))
+    .filter(b => b.slug !== route.params.slug)
     .slice(0, 3)
 })
 </script>

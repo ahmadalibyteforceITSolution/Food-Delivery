@@ -36,8 +36,8 @@ const paginatedBlogs = computed(() => {
   return filteredBlogs.value.slice(start, end)
 })
 
-const goToBlog = (id) => {
-  router.push(`/blog/${id}`)
+const goToBlog = (slug) => {
+  router.push(`/blog/${slug}`)
 }
 
 const handleSearch = () => {
@@ -71,7 +71,7 @@ const handleSearch = () => {
         <div 
           v-for="blog in paginatedBlogs" 
           :key="blog.id"
-          @click="goToBlog(blog.id)"
+          @click="goToBlog(blog.slug)"
           class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group cursor-pointer border border-neutral-100"
         >
           <div class="relative h-64 overflow-hidden">

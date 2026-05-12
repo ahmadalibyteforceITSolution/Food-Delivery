@@ -463,7 +463,7 @@ const addPopularToCart = (item) => {
           <div 
             v-for="blog in latestBlogs" 
             :key="blog.id"
-            @click="router.push(`/blog/${blog.id}`)"
+            @click="router.push(`/blog/${blog.slug}`)"
             class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group cursor-pointer border border-neutral-100/50"
           >
             <div class="relative h-64 overflow-hidden">

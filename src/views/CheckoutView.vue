@@ -29,20 +29,27 @@ const processOrder = () => {
   if (cartStore.items.length === 0) return
   isProcessing.value = true
 
-  setTimeout(() => {
-    const order = ordersStore.placeOrder({
-      items: [...cartStore.items],
-      total: cartStore.grandTotal,
-      subtotal: cartStore.totalPrice,
-      deliveryFee: cartStore.deliveryFee,
-      deliveryAddress: form.value.address,
-      customerName: form.value.name,
-      paymentMethod: paymentMethod.value,
-      notes: form.value.notes
-    })
-    isProcessing.value = false
-    cartStore.clearCart()
-    router.push('/order-success')
+  setTimeout(async () => {
+    try {
+      await ordersStore.placeOrder({
+        userId: authStore.user?.id || 'guest',
+        userEmail: authStore.user?.email, // Send email for notifications
+        items: [...cartStore.items],
+        total: cartStore.grandTotal,
+        subtotal: cartStore.totalPrice,
+        deliveryFee: cartStore.deliveryFee,
+        deliveryAddress: form.value.address,
+        customerName: form.value.name,
+        paymentMethod: paymentMethod.value,
+        notes: form.value.notes
+      })
+      isProcessing.value = false
+      cartStore.clearCart()
+      router.push('/order-success')
+    } catch (error) {
+      isProcessing.value = false
+      alert('Failed to place order. Please try again.')
+    }
   }, 2000)
 }
 

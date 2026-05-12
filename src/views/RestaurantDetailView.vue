@@ -20,7 +20,7 @@ const restaurant = computed(() => restaurantStore.getRestaurantBySlug(restaurant
 watchEffect(() => {
   if (restaurant.value) {
     useSEO({
-      title: `${restaurant.value.name} | Order Online | Elysium Eats`,
+      title: restaurant.value.name,
       description: `Order from ${restaurant.value.name}. Specializing in ${restaurant.value.cuisine}. Rated ${restaurant.value.rating}/5. Delivery in ${restaurant.value.deliveryTime}.`,
       image: restaurant.value.image
     })
