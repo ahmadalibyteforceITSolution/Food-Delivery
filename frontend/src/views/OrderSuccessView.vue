@@ -39,7 +39,7 @@ const goToOrders = () => {
       <!-- Order ID -->
       <div v-if="latestOrder" class="bg-neutral-50 rounded-2xl p-4 mb-6 border border-neutral-100">
         <p class="text-xs text-neutral-500 mb-1">Order Number</p>
-        <p class="text-lg font-bold text-luxury-black font-mono">{{ latestOrder.id }}</p>
+        <p class="text-lg font-bold text-luxury-black font-mono">{{ latestOrder.orderId || latestOrder._id || latestOrder.id }}</p>
       </div>
 
       <div class="bg-neutral-50 rounded-2xl p-6 mb-8 text-left border border-neutral-100">
