@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 dotenv.config();
 
 const app = express();
@@ -14,56 +14,52 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Email Transporter Configuration
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+// Resend Configuration
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Helper: Send Order Confirmation Email
 const sendOrderConfirmation = async (order, userEmail) => {
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.warn('Email credentials not set. Skipping email notification.');
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('Resend API Key not set. Skipping email notification.');
     return;
   }
 
   const itemsList = order.items.map(item => `<li>${item.name} x ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</li>`).join('');
 
-  const mailOptions = {
-    from: `"Elysium Eats" <${process.env.EMAIL_USER}>`,
-    to: userEmail,
-    subject: `Order Confirmed - #${order.orderId}`,
-    html: `
-      <div style="font-family: 'serif', 'Times New Roman', serif; max-width: 600px; margin: 0 auto; padding: 40px; border: 1px solid #f0f0f0; border-radius: 20px;">
-        <h1 style="color: #d70150; text-align: center;">Order Confirmed!</h1>
-        <p>Dear ${order.customerName},</p>
-        <p>Your order <strong>#${order.orderId}</strong> has been placed successfully and is being prepared.</p>
-        
-        <div style="background-color: #fafafa; padding: 20px; border-radius: 15px; margin: 20px 0;">
-          <h3 style="margin-top: 0;">Order Summary:</h3>
-          <ul style="list-style: none; padding: 0;">
-            ${itemsList}
-          </ul>
-          <hr style="border: none; border-top: 1px solid #eee;" />
-          <p style="text-align: right; font-weight: bold; font-size: 1.2em;">Total: $${order.total.toFixed(2)}</p>
-        </div>
-
-        <p><strong>Delivery Address:</strong><br/>${order.deliveryAddress}</p>
-        <p>Thank you for choosing Elysium Eats for your premium dining experience.</p>
-        
-        <div style="text-align: center; margin-top: 40px; color: #888; font-size: 0.8em;">
-          <p>© 2026 Elysium Eats. All rights reserved.</p>
-        </div>
-      </div>
-    `
-  };
-
   try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Confirmation email sent to ${userEmail}`);
+    const { data, error } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+      to: userEmail,
+      subject: `Order Confirmed - #${order.orderId}`,
+      html: `
+        <div style="font-family: 'serif', 'Times New Roman', serif; max-width: 600px; margin: 0 auto; padding: 40px; border: 1px solid #f0f0f0; border-radius: 20px;">
+          <h1 style="color: #d70150; text-align: center;">Order Confirmed!</h1>
+          <p>Dear ${order.customerName},</p>
+          <p>Your order <strong>#${order.orderId}</strong> has been placed successfully and is being prepared.</p>
+          
+          <div style="background-color: #fafafa; padding: 20px; border-radius: 15px; margin: 20px 0;">
+            <h3 style="margin-top: 0;">Order Summary:</h3>
+            <ul style="list-style: none; padding: 0;">
+              ${itemsList}
+            </ul>
+            <hr style="border: none; border-top: 1px solid #eee;" />
+            <p style="text-align: right; font-weight: bold; font-size: 1.2em;">Total: $${order.total.toFixed(2)}</p>
+          </div>
+
+          <p><strong>Delivery Address:</strong><br/>${order.deliveryAddress}</p>
+          <p>Thank you for choosing Elysium Eats for your premium dining experience.</p>
+          
+          <div style="text-align: center; margin-top: 40px; color: #888; font-size: 0.8em;">
+            <p>© 2026 Elysium Eats. All rights reserved.</p>
+          </div>
+        </div>
+      `
+    });
+
+    if (error) {
+      return console.error('Error sending email via Resend:', error);
+    }
+    console.log(`Confirmation email sent to ${userEmail} (ID: ${data.id})`);
   } catch (error) {
     console.error('Error sending email:', error);
   }
