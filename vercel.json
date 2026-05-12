@@ -7,19 +7,27 @@
     },
     {
       "source": "/sitemap.xml",
-      "destination": "/api/index.js"
+      "destination": "/sitemap.xml"
     },
     {
-      "source": "/assets/(.*)",
-      "destination": "/frontend/dist/assets/$1"
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
     },
     {
-      "source": "/((?!api/|sitemap\\.xml).*\\..*)",
-      "destination": "/frontend/dist/$1"
-    },
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
     {
-      "source": "/((?!api/|sitemap\\.xml).*)",
-      "destination": "/frontend/dist/index.html"
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml"
+        }
+      ]
     }
   ]
 }
+
