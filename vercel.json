@@ -1,8 +1,16 @@
 {
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "backend/server.js"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "backend/server.js"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/frontend/index.html"
     }
   ]
 }

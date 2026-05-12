@@ -20,13 +20,13 @@ const subscribe = async () => {
     })
     
     if (response.ok) {
-      notificationStore.show('Thank you for subscribing!', 'success')
+      notificationStore.addNotification('Thank you for subscribing!', 'success')
       email.value = ''
     } else {
-      notificationStore.show('Something went wrong. Please try again.', 'error')
+      notificationStore.addNotification('Something went wrong. Please try again.', 'error')
     }
   } catch (error) {
-    notificationStore.show('Connection error. Please try again.', 'error')
+    notificationStore.addNotification('Connection error. Please try again.', 'error')
   } finally {
     isSubmitting.value = false
   }
