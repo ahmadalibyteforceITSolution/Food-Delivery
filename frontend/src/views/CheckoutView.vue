@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ArrowLeft, CreditCard, MapPin, Phone, User, CheckCircle2, Wallet, Banknote } from 'lucide-vue-next'
+import { ArrowLeft, CreditCard, MapPin, Phone, User, CheckCircle2, Wallet, Banknote, Mail } from 'lucide-vue-next'
 import { useCartStore } from '../stores/cart'
 import { useOrdersStore } from '../stores/orders'
 import { useAuthStore } from '../stores/auth'
@@ -15,6 +15,7 @@ const paymentMethod = ref('card')
 
 const form = ref({
   name: authStore.user?.name || '',
+  email: authStore.user?.email || '',
   phone: authStore.user?.phone || '',
   address: authStore.user?.address || '',
   cardNumber: '',
@@ -33,7 +34,7 @@ const processOrder = () => {
     try {
       await ordersStore.placeOrder({
         userId: authStore.user?.id || 'guest',
-        userEmail: authStore.user?.email, // Send email for notifications
+        userEmail: form.value.email, // Use email from form
         items: [...cartStore.items],
         total: cartStore.grandTotal,
         subtotal: cartStore.totalPrice,
@@ -91,6 +92,13 @@ const goBack = () => {
                 <div class="relative">
                   <User class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                   <input v-model="form.name" type="text" class="input-luxury pl-12" placeholder="John Doe" />
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-neutral-600">Email Address</label>
+                <div class="relative">
+                  <Mail class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                  <input v-model="form.email" type="email" class="input-luxury pl-12" placeholder="john@example.com" required />
                 </div>
               </div>
               <div class="space-y-2">
