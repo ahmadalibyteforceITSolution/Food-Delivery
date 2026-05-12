@@ -1,13 +1,38 @@
 {
-  "name": "food-panda-mono",
+  "name": "food-panda-restaurant",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "install": "npm install --prefix frontend && npm install --prefix backend",
-    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run start --prefix backend\"",
-    "build": "npm run build --prefix frontend"
+    "start": "npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "node api/index.js",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "install:all": "npm install && cd frontend && npm install",
+    "build": "vite build frontend"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "@vueuse/core": "^14.3.0",
+    "@vueuse/motion": "^3.0.3",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-vue-next": "^1.0.0",
+    "mongoose": "^9.6.2",
+    "pinia": "^3.0.4",
+    "resend": "^4.8.0",
+    "vue": "^3.5.34",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@vitejs/plugin-vue": "^6.0.6",
+    "autoprefixer": "^10.5.0",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.3.0",
+    "vite": "^8.0.12"
   }
 }
