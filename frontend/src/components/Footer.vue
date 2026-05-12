@@ -13,7 +13,8 @@ const subscribe = async () => {
   
   isSubmitting.value = true
   try {
-    const response = await fetch('http://localhost:5000/api/subscribe', {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+    const response = await fetch(`${API_URL}/subscribe`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email.value })
