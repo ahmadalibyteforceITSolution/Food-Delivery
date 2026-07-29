@@ -73,6 +73,7 @@ const subscribe = async () => {
             <li><RouterLink to="/blog" class="text-neutral-400 hover:text-white transition-colors">Culinary Blog</RouterLink></li>
             <li><RouterLink to="/favorites" class="text-neutral-400 hover:text-white transition-colors">My Favorites</RouterLink></li>
             <li><RouterLink to="/orders" class="text-neutral-400 hover:text-white transition-colors">Order History</RouterLink></li>
+            <li><RouterLink to="/admin" class="text-luxury-gold/90 hover:text-luxury-gold transition-colors font-medium">✦ Admin Dashboard</RouterLink></li>
           </ul>
         </div>
 

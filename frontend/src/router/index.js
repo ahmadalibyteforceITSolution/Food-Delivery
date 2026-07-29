@@ -68,11 +68,51 @@ const router = createRouter({
       path: '/support',
       name: 'support',
       component: () => import('../views/SupportView.vue')
+    },
+
+    // Admin Routes
+    {
+      path: '/admin/login',
+      name: 'admin-login',
+      component: () => import('../views/admin/AdminLogin.vue')
+    },
+    {
+      path: '/admin',
+      component: () => import('../views/admin/AdminLayout.vue'),
+      meta: { requiresAdmin: true },
+      children: [
+        {
+          path: '',
+          name: 'admin-dashboard',
+          component: () => import('../views/admin/AdminDashboard.vue')
+        },
+        {
+          path: 'restaurants',
+          name: 'admin-restaurants',
+          component: () => import('../views/admin/AdminRestaurants.vue')
+        },
+        {
+          path: 'restaurants/:id',
+          name: 'admin-restaurant-detail',
+          component: () => import('../views/admin/AdminRestaurantDetail.vue')
+        }
+      ]
     }
   ],
   scrollBehavior() {
     return { top: 0 }
   }
+})
+
+// Admin auth guard
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAdmin) {
+    const token = localStorage.getItem('adminToken')
+    if (!token) {
+      return next('/admin/login')
+    }
+  }
+  next()
 })
 
 export default router

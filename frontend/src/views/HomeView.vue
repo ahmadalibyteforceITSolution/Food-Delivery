@@ -260,7 +260,7 @@ const addPopularToCart = (item) => {
             <div class="p-4">
               <h3 class="font-semibold text-luxury-black text-sm line-clamp-1">{{ item.name }}</h3>
               <div class="flex items-center justify-between mt-3">
-                <span class="text-luxury-gold font-bold">${{ item.price.toFixed(2) }}</span>
+                <span class="text-luxury-gold font-bold">${{ (typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0).toFixed(2) }}</span>
                 <button
                   @click.stop="addPopularToCart(item)"
                   class="w-8 h-8 rounded-lg bg-luxury-black text-white flex items-center justify-center hover:bg-luxury-gold transition-colors text-sm"
@@ -405,7 +405,7 @@ const addPopularToCart = (item) => {
                 <h3 class="font-serif text-xl text-luxury-black group-hover:text-luxury-gold transition-colors duration-300">
                   {{ item.name }}
                 </h3>
-                <span class="text-luxury-gold font-bold font-serif">${{ item.price }}</span>
+                <span class="text-luxury-gold font-bold font-serif">${{ (typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0).toFixed(2) }}</span>
               </div>
               <p class="text-neutral-500 text-sm line-clamp-2 mb-4 leading-relaxed">
                 {{ item.description }}

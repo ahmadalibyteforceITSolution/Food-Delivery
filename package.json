@@ -5,14 +5,18 @@
   "type": "module",
   "scripts": {
     "start": "npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
     "dev:backend": "node api/index.js",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "install:all": "npm install && cd frontend && npm install",
+    "install:all": "npm install && npm --prefix frontend install",
     "seed": "node seed.js",
     "build": "vite build frontend"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "@capacitor/ios": "^8.4.2",
     "@tailwindcss/postcss": "^4.3.0",
     "@vueuse/core": "^14.3.0",
     "@vueuse/motion": "^3.0.3",
@@ -20,6 +24,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "install": "^0.13.0",
     "jsonwebtoken": "^9.0.3",
     "lucide-vue-next": "^1.0.0",
     "mongoose": "^9.6.2",

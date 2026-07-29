@@ -185,7 +185,7 @@ const goBack = () => {
                   <p class="text-sm font-medium text-luxury-black line-clamp-1">{{ item.name }}</p>
                   <p class="text-xs text-neutral-500">x{{ item.quantity }}</p>
                 </div>
-                <span class="font-medium text-luxury-black text-sm">${{ (item.price * item.quantity).toFixed(2) }}</span>
+                <span class="font-medium text-luxury-black text-sm">${{ ((typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0) * item.quantity).toFixed(2) }}</span>
               </div>
             </div>
 

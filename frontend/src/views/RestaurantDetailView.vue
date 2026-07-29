@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, onMounted, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Star, Clock, Info, ArrowLeft, Plus, Heart, ShieldCheck, Minus } from 'lucide-vue-next'
 import { useRestaurantStore } from '../stores/restaurant'
@@ -16,6 +16,10 @@ const favoritesStore = useFavoritesStore()
 
 const restaurantNameSlug = route.params.name
 const restaurant = computed(() => restaurantStore.getRestaurantBySlug(restaurantNameSlug))
+
+onMounted(() => {
+  restaurantStore.fetchRestaurants()
+})
 
 watchEffect(() => {
   if (restaurant.value) {
@@ -135,7 +139,7 @@ const addToCart = (item) => {
               <p class="text-neutral-500 text-sm line-clamp-2 leading-relaxed">{{ item.description }}</p>
             </div>
             <div class="flex items-center justify-between mt-4">
-              <span class="text-xl font-semibold text-luxury-gold">${{ item.price.toFixed(2) }}</span>
+              <span class="text-xl font-semibold text-luxury-gold">${{ (typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0).toFixed(2) }}</span>
 
               <div class="flex items-center gap-2">
                 <!-- Fav -->

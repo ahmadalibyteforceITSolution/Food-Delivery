@@ -75,6 +75,7 @@ onUnmounted(() => {
         <RouterLink to="/blog" class="nav-link">Blog</RouterLink>
         <RouterLink to="/favorites" class="nav-link">Favorites</RouterLink>
         <RouterLink to="/orders" class="nav-link">My Orders</RouterLink>
+        <RouterLink to="/admin" class="nav-link text-luxury-gold font-bold">Admin</RouterLink>
       </div>
 
       <!-- Actions -->
@@ -200,6 +201,7 @@ onUnmounted(() => {
         <RouterLink @click="isMenuOpen = false" to="/favorites" class="mobile-link">Favorites</RouterLink>
         <RouterLink @click="isMenuOpen = false" to="/orders" class="mobile-link">My Orders</RouterLink>
         <RouterLink @click="isMenuOpen = false" to="/profile" class="mobile-link">Profile</RouterLink>
+        <RouterLink @click="isMenuOpen = false" to="/admin" class="mobile-link text-luxury-gold font-bold">Admin Portal</RouterLink>
       </div>
     </transition>
   </nav>

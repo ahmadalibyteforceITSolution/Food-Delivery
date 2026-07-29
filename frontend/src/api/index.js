@@ -53,5 +53,74 @@ export const apiService = {
       body: JSON.stringify(credentials)
     });
     return handleResponse(response);
+  },
+
+  // Admin
+  async adminLogin(credentials) {
+    const response = await fetch(`${BASE_URL}/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+    });
+    return handleResponse(response);
+  },
+
+  async getAdminRestaurants(token) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return handleResponse(response);
+  },
+
+  async createRestaurant(token, data) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+    return handleResponse(response);
+  },
+
+  async updateRestaurant(token, id, data) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+    return handleResponse(response);
+  },
+
+  async deleteRestaurant(token, id) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return handleResponse(response);
+  },
+
+  async addMenuItem(token, restaurantId, data) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants/${restaurantId}/menu`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+    return handleResponse(response);
+  },
+
+  async updateMenuItem(token, restaurantId, itemId, data) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants/${restaurantId}/menu/${itemId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+    return handleResponse(response);
+  },
+
+  async deleteMenuItem(token, restaurantId, itemId) {
+    const response = await fetch(`${BASE_URL}/admin/restaurants/${restaurantId}/menu/${itemId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return handleResponse(response);
   }
 };

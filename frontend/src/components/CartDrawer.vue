@@ -61,7 +61,7 @@ const checkout = () => {
               <div class="flex-grow flex flex-col justify-between">
                 <div>
                   <h3 class="font-medium text-luxury-black line-clamp-1">{{ item.name }}</h3>
-                  <p class="text-luxury-gold font-semibold mt-1">${{ item.price.toFixed(2) }}</p>
+                  <p class="text-luxury-gold font-semibold mt-1">${{ (typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0).toFixed(2) }}</p>
                 </div>
                 
                 <div class="flex items-center justify-between mt-2">

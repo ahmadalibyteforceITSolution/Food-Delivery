@@ -1,6 +1,13 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import dns from 'dns';
 dotenv.config();
+
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+} catch (e) {
+  console.warn('Could not set custom DNS servers:', e.message);
+}
 
 const RestaurantSchema = new mongoose.Schema({
   id: Number,
@@ -122,7 +129,7 @@ const generateData = () => {
         id: dishIdCounter++,
         name: `${baseDish.name} ${j > 4 ? `(Style ${j - 3})` : ''}`.trim(),
         description: `Our signature ${baseDish.name.toLowerCase()} prepared with the freshest ingredients and traditional techniques.`,
-        price: (baseDish.basePrice + Math.random() * 5).toFixed(2),
+        price: parseFloat((baseDish.basePrice + Math.random() * 5).toFixed(2)),
         image: baseDish.images[0] + `?auto=format&fit=crop&q=80&w=400&sig=${dishIdCounter}`,
         popular: Math.random() > 0.6
       });
